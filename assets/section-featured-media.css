@@ -1,0 +1,104 @@
+
+
+/* section : featured-block/-section/section-video
+################### */
+
+.ft-sctn {
+    overflow: hidden;
+}
+
+.ft-sctn .sctn__bl {
+    overflow: hidden;
+    position: relative;
+}
+
+@media screen and ( min-width: 750px ) {
+    .ft-sctn {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .ft-sctn.small > .sctn__bl.ft-media { width: 30%; }
+    .ft-sctn.small > .sctn__bl.content { width: 70%; }
+    .ft-sctn.medium > .sctn__bl.ft-media { width: 50%; }
+    .ft-sctn.medium > .sctn__bl.content { width: 50%; }
+    .ft-sctn.large > .sctn__bl.ft-media { width: 70%; }
+    .ft-sctn.large > .sctn__bl.content { width: 30%; }
+}
+
+.ft-sctn .sctn__bl.ft-media > img, .ft-sctn .sctn__bl.ft-media > video {
+    position: relative;
+    min-height: 100%;
+    object-fit: cover;
+    height: fit-content;
+}
+
+.sctn__bl.ft-media iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.sctn__bl.dark,
+.sctn__bl.dark h3,
+.sctn__bl.dark p
+/*.sctn__bl.dark a*/ {
+    color: rgba(255, 255, 255, 1.0);
+}
+
+.sctn__bl.dark,
+.sctn__bl.dark h3,
+.sctn__bl.dark p
+/*.sctn__bl.dark a*/ {
+    color: rgba(255, 255, 255, 1.0);
+}
+
+.sctn__bl.light button {
+    /*color: rgba(0, 0, 0, 1.0);*/
+}
+
+.sctn__bl.dark button {
+    /*color: rgba(255, 255, 255, 1.0);*/
+}
+
+.sctn__bl.dark .button--secondary {
+    --color-button: var(--color-base-outline-button-labels);
+    --color-button-text: var(--color-base-outline-button-labels);
+    --color-button: transparent;
+    --alpha-button-background: 1;
+}
+
+/*.sctn__bl.light .button--primary,
+.sctn__bl.dark .button--primary {
+    background-color: rgba(0, 0, 0, 1.0);
+}
+
+.sctn__bl.light .button--secondary,
+.sctn__bl.dark .button--secondary {
+    background-color: rgba(255, 255, 255, 1.0);
+}
+
+.sctn__bl.light .button--primary,
+.sctn__bl.dark .button--primary,
+.sctn__bl.light .button--secondary:hover,
+.sctn__bl.dark .button--secondary:hover {
+    color: rgba(255, 255, 255, 1.0);
+}
+
+.sctn__bl.light .button--primary:hover,
+.sctn__bl.dark .button--primary:hover,
+.sctn__bl.light .button--secondary,
+.sctn__bl.dark .button--secondary {
+    color: rgba(0, 0, 0, 1.0);
+}*/
+
+.hdT {
+    display: none!important;
+}
+
+.swT {
+    display: block!important;
+}

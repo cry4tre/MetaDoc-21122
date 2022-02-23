@@ -1,0 +1,731 @@
+{{ 'section-featured-media.css' | asset_url | stylesheet_tag }}
+
+{% comment %} section styles {% endcomment %}
+{%- assign section_style = section.settings.section_style -%}
+{%- assign section_bg_color = section.settings.section_bg_color -%}
+
+{% comment %} section padding {% endcomment %}
+{%- assign padding_top = section.settings.padding_top -%}
+{%- assign padding_bottom = section.settings.padding_bottom -%}
+
+{% comment %} section layout {% endcomment %}
+{%- assign section_max_width = section.settings.section_max_width -%}
+{%- assign section_height = section.settings.section_height -%}
+{%- assign media_position = section.settings.media_position -%}
+{%- assign media_size = section.settings.media_size -%}
+
+{% comment %} media {% endcomment %}
+{%- assign media_type = section.settings.media_type -%}
+{%- assign section_image = section.settings.section_image -%}
+{%- assign video_url = section.settings.video_url -%}
+
+
+{%- assign media_margin_left = section.settings.media_margin_left -%}
+{%- assign media_margin_right = section.settings.media_margin_right -%}
+{%- assign enable_max_media_width = section.settings.enable_max_media_width -%}
+{%- assign max_media_width = section.settings.max_media_width -%}
+
+{% comment %} media: video {% endcomment %}
+{%- assign autoplay = section.settings.autoplay -%}
+{%- assign loop = section.settings.loop -%}
+{%- assign muted = section.settings.muted -%}
+{%- assign playsinline = section.settings.playsinline -%}
+{%- assign autobuffer = section.settings.autobuffer -%}
+{%- assign preload = section.settings.preload -%}
+{%- assign poster = section.settings.poster -%}
+
+{% comment %} section content {% endcomment %}
+{%- assign text_position = section.settings.text_position -%}
+{%- assign text_position_mobile = section.settings.text_position_mobile -%}
+{%- assign content_padding_desktop = section.settings.content_padding_desktop -%}
+{%- assign content_padding_mobile = section.settings.content_padding_mobile -%}
+{%- assign section_title = section.settings.section_title -%}
+{%- assign heading_style = section.settings.heading_style -%}
+{%- assign title_font_size = section.settings.title_font_size -%}
+{%- assign section_paragraph = section.settings.section_paragraph -%}
+{%- assign text_font_size = section.settings.text_font_size -%}
+{%- assign text_style = section.settings.text_style -%}
+{%- assign section_button_text = section.settings.section_button_text -%}
+{%- assign section_url = section.settings.section_url -%}
+{%- assign button_style = section.settings.button_style -%}
+
+{% comment %} STYLES {% endcomment %}
+
+<style type="text/css">
+
+#shopify-section-{{ section.id }} {
+    padding-top: {{ padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ padding_bottom | times: 0.50 | round: 0 }}px;
+}
+
+@media screen and (min-width: 769px) {
+    #shopify-section-{{ section.id }} {
+        padding-top: {{ padding_top }}px;
+        padding-bottom: {{ padding_bottom }}px;
+    }
+}
+
+/* layout */
+
+@media screen and ( min-width: 769px ) {
+
+    .ft-sctn-{{ section.id }} {
+        max-width: {{ section_max_width }}%;
+    }
+}
+
+@media screen and ( max-width: 768px ) {
+
+    .ft-sctn-{{ section.id }} { 
+        display: block; 
+    }
+
+    .ft-sctn-{{ section.id }} .sctn__bl.ft-media,
+    .ft-sctn-{{ section.id }} .sctn__bl.content { 
+        width: 100%; 
+    }
+}
+
+{%- if section_height == "550" or section_height == "700" or section_height == "950" -%}
+
+    @media screen and ( min-width: 769px ) {
+        .ft-sctn-{{ section.id }} {
+            height: {{ section_height }}px;
+        }
+    }
+    
+{%- endif -%}
+
+{%- if section_height == "full" -%}
+
+    @media screen and ( min-width: 769px ) {
+        .ft-sctn-{{ section.id }} {
+            height: 100vh;
+        }
+    }
+
+{% endif %}
+
+/* media */
+
+@media screen and ( min-width: 769px ) {
+
+    .ft-sctn-{{ section.id }} .sctn__bl.ft-media {
+        padding-left: {{ media_margin_left }}px;
+        padding-right: {{ media_margin_right }}px;
+    }
+}
+
+{%- if enable_max_media_width -%}
+
+    .ft-sctn-{{ section.id }} .ft-media img, .ft-sctn-{{ section.id }} .ft-media video {
+        max-width: {{ max_media_width }}%;
+    }  
+    
+{%- endif -%}
+
+/* video */
+
+{% if media_type == "use_video" %}
+
+    .overlay-controls {
+
+    }
+
+{%- endif -%}
+
+/* content styles */
+
+.ft-sctn-{{ section.id }} .sctn__bl.content {
+    text-align: {{ text_position_mobile }};
+}
+
+@media screen and ( min-width: 769px ) {
+
+    .ft-sctn-{{ section.id }} .sctn__bl.content {
+        text-align: {{ text_position }};
+    }
+}
+
+.ft-sctn-{{ section.id }} .featured-section-heading {
+    font-size: {{ title_font_size | times: 0.83 | round: 0 }}px;
+}
+
+@media screen and ( min-width: 769px ) {
+    
+    .ft-sctn-{{ section.id }} .featured-section-heading {
+        font-size: {{ title_font_size }}px;
+    }
+}
+
+</style>
+
+{% comment %} CONTENT {% endcomment %}
+
+<div class="ft-sctn ft-sctn-{{ section.id }} flx-dt{% if media_position == 'reverse' %} rr{% endif %} {{ media_size }}" style="background-color: {{ section_bg_color }};">
+
+    <div class="sctn__bl ft-media flx-dt ct-xy">
+
+        {% if media_type == "use_video" %}
+
+          <video id="mainVideo-{{ section.id }}"
+                {% if autoplay == true %}autoplay{% endif %}
+                {% if loop == true %}loop{% endif %}
+                {% if muted == true %}muted{% endif %}
+                {% if playsinline == true %}playsinline{% endif %}
+                {% if autobuffer == true %}autobuffer{% endif %}
+                {% if preload == true %}preload{% endif %}
+                {% if poster != blank %}poster="{{ poster | img_url: '1500x' }}"{% endif %}
+          >
+              <source src="{{ video_url }}" type="video/mp4">
+
+          </video>
+
+          {% if controls == true %}
+            <div class="overlay-controls mp po-a xy zi-3">
+                <button id="playButton-{{ section.id }}" class="video-controls bare block" onclick="playPause()">pause</button>
+                <button id="muteButton-{{ section.id }}" class="video-controls bare block" onclick="muteUnMute()">unmute</button>
+            </div>
+          {% endif %}
+
+        {% elsif media_type == "use_image" %}
+
+            <img
+                srcset="{%- if section_image.width >= 165 -%}{{ section_image | img_url: '165x' }} 165w,{%- endif -%}
+                  {%- if section_image.width >= 360 -%}{{ section_image | img_url: '360x' }} 360w,{%- endif -%}
+                  {%- if section_image.width >= 535 -%}{{ section_image | img_url: '535x' }} 535w,{%- endif -%}
+                  {%- if section_image.width >= 750 -%}{{ section_image | img_url: '750x' }} 750w,{%- endif -%}
+                  {%- if section_image.width >= 1070 -%}{{ section_image | img_url: '1070x' }} 1070w,{%- endif -%}
+                  {%- if section_image.width >= 1500 -%}{{ section_image | img_url: '1500x' }} 1500w,{%- endif -%}
+                  {%- if section_image.width >= 1780 -%}{{ section_image | img_url: '1780x' }} 1780w,{%- endif -%}
+                  {%- if section_image.width >= 2000 -%}{{ section_image | img_url: '2000x' }} 2000w,{%- endif -%}
+                  {%- if section_image.width >= 3000 -%}{{ section_image | img_url: '3000x' }} 3000w,{%- endif -%}
+                  {%- if section_image.width >= 3840 -%}{{ section_image | img_url: '3840x' }} 3840w,{%- endif -%}"
+                src="{{ section_image | img_url: '1500x' }}"
+                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | divided_by: 2 }}px, (min-width: 750px) calc((100vw) / 2), (100vw)"
+                alt="{{ section_image.alt | escape }}"
+                loading="lazy"
+                width="{{ section_image.width }}"
+                height="{{ section_image.height }}">
+
+        {% endif %}
+
+    </div>
+
+    <div class="sctn__bl content flx ct-xy {{ section_style }}">
+
+        <div class="sctn__bl-content {{ content_padding_desktop }} {{ content_padding_mobile }}" style="width: 100%">
+
+            <h3 class="featured-section-heading text__heading--{{ heading_style }}">{{ section_title }}</h3>
+
+            <div class="text__text text__text--{{ text_style }}" style="font-size: {{ text_font_size }}px;">{{ section_paragraph }}</div>
+
+            {%- if section_url -%}
+                <a class="button button--{{ button_style }}" href="{{ section_url }}">{{ section_button_text }}</a>
+            {%- endif -%}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% if media_type == "use_video" and controls == true %}
+
+    <script> 
+
+        let thyVideo=document.getElementById("mainVideo-{{ section.id }}"); 
+        let thyPlayButton=document.getElementById("playButton-{{ section.id }}"); 
+        let thyMuteButton=document.getElementById("muteButton-{{ section.id }}"); 
+
+        function playPause() { 
+          if (thyVideo.paused) {
+            thyVideo.play(); 
+            thyPlayButton.innerHTML='pause';
+          } else {
+            thyVideo.pause(); 
+            thyPlayButton.innerHTML='play';
+          }
+        } 
+
+        function muteUnMute() { 
+          if (!thyVideo.muted) {
+            thyVideo.muted='muted';
+            thyMuteButton.innerHTML='unmute';
+          } else {
+            thyVideo.muted=false;
+            thyMuteButton.innerHTML='mute';
+          }
+        } 
+
+    </script>
+
+{% endif %}
+
+{% schema %}
+{
+    "name": "Featured media",
+    "class": "ft-cstm featured-block",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Section specific"
+        },
+        {
+            "type": "select",
+            "id": "section_style",
+            "options": [
+                {
+                    "value": "dark",
+                    "label": "Dark"
+                },
+                {
+                    "value": "light",
+                    "label": "Light"
+                }
+            ],
+            "default": "light",
+            "label": "Section style"
+        },
+        {
+            "type": "color",
+            "id": "section_bg_color",
+            "label": "Section background color",
+            "default": "#ffffff"
+        },
+        {
+            "type": "header",
+            "content": "Section layout",
+            "info": "In this section you can edit section specific attributes. Feel free to play around and test different combinations!"
+        },
+        {
+            "type": "range",
+            "id": "section_max_width",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Section width",
+            "default": 100
+        },
+        {
+            "type": "select",
+            "id": "section_height",
+            "options": [
+                {
+                    "value": "full",
+                    "label": "Full screen"
+                },
+                {
+                    "value": "adapt",
+                    "label": "Adapt"
+                },
+                {
+                    "value": "950",
+                    "label": "Large"
+                },
+                {
+                    "value": "700",
+                    "label": "Medium"
+                },
+                {
+                    "value": "550",
+                    "label": "Small"
+                }
+            ],
+            "default": "adapt",
+            "label": "Section height"
+        },
+        {
+            "type": "select",
+            "id": "media_position",
+            "options": [
+                {
+                    "value": "normal",
+                    "label": "Left"
+                },
+                {
+                    "value": "reverse",
+                    "label": "Right"
+                }
+            ],
+            "default": "normal",
+            "label": "Media position"
+        },
+        {
+            "type": "select",
+            "id": "media_size",
+            "options": [
+                {
+                    "value": "small",
+                    "label": "30%"
+                },
+                {
+                    "value": "medium",
+                    "label": "50%"
+                },
+                {
+                    "value": "large",
+                    "label": "70%"
+                }
+            ],
+            "default": "large",
+            "label": "Media size"
+        },
+        {
+            "type": "header",
+            "content": "Section padding"
+        },
+        {
+            "type": "range",
+            "id": "padding_top",
+            "min": 0,
+            "max": 100,
+            "step": 4,
+            "unit": "px",
+            "label": "Top padding",
+            "default": 0
+        },
+        {
+            "type": "range",
+            "id": "padding_bottom",
+            "min": 0,
+            "max": 100,
+            "step": 4,
+            "unit": "px",
+            "label": "Bottom padding",
+            "default": 0
+        },
+        {
+            "type": "header",
+            "content": "Media"
+        },
+        {
+            "type": "select",
+            "id": "media_type",
+            "options": [
+                {
+                    "value": "use_image",
+                    "label": "Image"
+                },
+                {
+                    "value": "use_video",
+                    "label": "Video"
+                }
+            ],
+            "default": "use_image",
+            "label": "Media type"
+        },
+        {
+            "type": "header",
+            "content": "Image",
+            "info": "If you chose image as the media type fill out this section."
+        },
+        {
+            "type": "image_picker",
+            "id": "section_image",
+            "label": "Image"
+        },
+        {
+            "type": "header",
+            "content": "Video",
+            "info": "If you chose video as the media type fill out this section."
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay",
+          "default": true,
+          "label": "Autoplay"
+        },
+        {
+          "type": "checkbox",
+          "id": "loop",
+          "default": true,
+          "label": "Loop"
+        },
+        {
+          "type": "checkbox",
+          "id": "muted",
+          "default": true,
+          "label": "Muted"
+        },
+        {
+          "type": "checkbox",
+          "id": "playsinline",
+          "default": true,
+          "label": "Plays inline"
+        },
+        {
+          "type": "checkbox",
+          "id": "autobuffer",
+          "default": true,
+          "label": "Auto buffer"
+        },
+        {
+          "type": "checkbox",
+          "id": "preload",
+          "default": true,
+          "label": "Preload"
+        },
+        {
+          "type": "checkbox",
+          "id": "controls",
+          "default": false,
+          "label": "Controls"
+        },
+        {
+            "type": "url",
+            "id": "video_url",
+            "label": "Video link"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Poster"
+        },
+        {
+            "type": "header",
+            "content": "Media options",
+            "info": "Image or video sizing options. (desktop only)"
+        },
+        {
+            "type": "range",
+            "id": "media_margin_left",
+            "min": 0,
+            "max": 200,
+            "step": 4,
+            "unit": "px",
+            "label": "Media margin left",
+            "default": 0
+        },
+        {
+            "type": "range",
+            "id": "media_margin_right",
+            "min": 0,
+            "max": 200,
+            "step": 4,
+            "unit": "px",
+            "label": "Media margin right",
+            "default": 0
+        },
+        {
+            "type": "checkbox",
+            "id": "enable_max_media_width",
+            "label": "Enable max media size",
+            "info": "Enable setting the max width of the media.",
+            "default": false
+        },
+        {
+            "type": "range",
+            "id": "max_media_width",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Max media width",
+            "default": 100
+        },
+        {
+            "type": "header",
+            "content": "Content",
+            "info": "Content input and settings."
+        },
+        {
+            "type": "select",
+            "id": "text_position",
+            "options": [
+                {
+                    "value": "left",
+                    "label": "Left"
+                },
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "right",
+                    "label": "Right"
+                }
+            ],
+            "default": "left",
+            "label": "Text position"
+        },
+        {
+            "type": "select",
+            "id": "text_position_mobile",
+            "options": [
+                {
+                    "value": "left",
+                    "label": "Left"
+                },
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "right",
+                    "label": "Right"
+                }
+            ],
+            "default": "center",
+            "label": "Text position (mobile)"
+        },
+        {
+            "type": "select",
+            "id": "content_padding_desktop",
+            "options": [
+                {
+                    "value": "p20",
+                    "label": "Small"
+                },
+                {
+                    "value": "p40",
+                    "label": "Medium"
+                },
+                {
+                    "value": "p60",
+                    "label": "Large"
+                }
+            ],
+            "default": "p60",
+            "label": "Content padding (desktop)"
+        },
+        {
+            "type": "select",
+            "id": "content_padding_mobile",
+            "options": [
+                {
+                    "value": "m-p20",
+                    "label": "Small"
+                },
+                {
+                    "value": "m-p40",
+                    "label": "Medium"
+                },
+                {
+                    "value": "m-p60",
+                    "label": "Large"
+                }
+            ],
+            "default": "m-p20",
+            "label": "Content padding (mobile)"
+        },
+        {
+            "type": "header",
+            "content": "Title"
+        },
+        {
+            "type": "text",
+            "id": "section_title",
+            "label": "Title text",
+            "default": "Featured section"
+        },
+        {
+            "type": "range",
+            "id": "title_font_size",
+            "label": "Title font size (in pixels)*",
+            "min": 10,
+            "max": 60,
+            "default": 30,
+            "step": 1,
+            "unit": "px"
+        },
+        {
+            "type": "paragraph",
+            "content": "* on mobile, the size will be 80% of the selected size."
+        },
+        {
+            "type": "select",
+            "id": "heading_style",
+            "label": "Heading style",
+            "default": "bold",
+            "options": [
+                {
+                    "value": "thin",
+                    "label": "Thin"
+                },
+                {
+                    "value": "medium",
+                    "label": "Medium"
+                },
+                {
+                    "value": "bold",
+                    "label": "Bold"
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "content": "Paragraph"
+        },
+        {
+            "type": "richtext",
+            "id": "section_paragraph",
+            "label": "Paragraph text",
+            "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>"
+        },
+        {
+            "type": "range",
+            "id": "text_font_size",
+            "label": "Paragraph font size (in pixels)",
+            "min": 8,
+            "max": 40,
+            "default": 18,
+            "step": 1,
+            "unit": "px"
+        },
+        {
+            "type": "select",
+            "id": "text_style",
+            "label": "Paragraph style",
+            "default": "medium",
+            "options": [
+                {
+                    "value": "thin",
+                    "label": "Thin"
+                },
+                {
+                    "value": "medium",
+                    "label": "Medium"
+                },
+                {
+                    "value": "bold",
+                    "label": "Bold"
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "content": "Button"
+        },
+        {
+            "type": "text",
+            "id": "section_button_text",
+            "label": "Button text",
+            "default": "Shop Now"
+        },
+        {
+            "type": "url",
+            "id": "section_url",
+            "label": "Button link"
+        },
+        {
+            "type": "select",
+            "id": "button_style",
+            "label": "Button style",
+            "default": "primary",
+            "options": [
+                { "label": "Primary", "value": "primary" },
+                { "label": "Secondary", "value": "secondary" },
+                { "label": "Tertiary", "value": "tertiary" }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Featured media",
+            "settings": {}
+        }
+    ]
+}
+{% endschema %}
